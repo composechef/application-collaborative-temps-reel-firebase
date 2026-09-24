@@ -9,25 +9,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.composechef.taskmate.core.designsystem.theme.Ink
-import com.composechef.taskmate.core.designsystem.theme.ListColors
 import com.composechef.taskmate.core.designsystem.theme.TaskMateTheme
+import com.composechef.taskmate.core.designsystem.theme.listColor
 import com.composechef.taskmate.core.model.ListInvite
 import com.composechef.taskmate.core.preview.PreviewData
 
 /** L'aperçu d'une liste trouvée grâce à un code d'invitation. */
 @Composable
 fun InvitePreview(invite: ListInvite, modifier: Modifier = Modifier) {
+    val colors = listColor(invite.color)
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = ListColors[invite.color.mod(ListColors.size)],
+        color = colors.container,
         shape = MaterialTheme.shapes.medium,
     ) {
         Text(
             text = invite.name,
             modifier = Modifier.padding(20.dp),
             style = MaterialTheme.typography.titleMedium,
-            color = Ink,
+            color = colors.onContainer,
         )
     }
 }

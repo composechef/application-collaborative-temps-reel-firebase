@@ -12,19 +12,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.composechef.taskmate.core.designsystem.theme.ListAccents
-import com.composechef.taskmate.core.designsystem.theme.ListColors
+import com.composechef.taskmate.core.designsystem.theme.listColor
 import com.composechef.taskmate.core.model.Member
 
 @Composable
 fun Avatar(member: Member, modifier: Modifier = Modifier, index: Int = 0) {
+    val colors = listColor(index)
     Box(
-        modifier = modifier.size(32.dp).clip(CircleShape).background(ListColors[index % ListColors.size]),
+        modifier = modifier.size(32.dp).clip(CircleShape).background(colors.container),
         contentAlignment = Alignment.Center,
     ) {
         Text(
             text = member.initials,
-            color = ListAccents[index % ListAccents.size],
+            color = colors.accent,
             fontSize = 11.sp,
             fontWeight = FontWeight.Bold,
         )

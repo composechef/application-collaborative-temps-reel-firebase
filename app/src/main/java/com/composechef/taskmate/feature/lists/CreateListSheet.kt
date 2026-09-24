@@ -33,8 +33,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.composechef.taskmate.R
 import com.composechef.taskmate.core.designsystem.components.TaskMateSheet
-import com.composechef.taskmate.core.designsystem.theme.ListAccents
-import com.composechef.taskmate.core.designsystem.theme.ListColors
+import com.composechef.taskmate.core.designsystem.theme.listColor
 
 @Composable
 fun CreateListSheet(
@@ -73,6 +72,7 @@ fun CreateListSheet(
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             colorLabels.forEachIndexed { index, label ->
                 val isSelected = color == index
+                val swatch = listColor(index)
                 Surface(
                     modifier =
                         Modifier.size(48.dp)
@@ -86,15 +86,17 @@ fun CreateListSheet(
                                 onClick = { color = index },
                             ),
                     shape = CircleShape,
-                    color = ListColors[index],
-                    border = if (isSelected) BorderStroke(2.dp, ListAccents[index]) else null,
+                    color = swatch.container,
+                    border =
+                        if (isSelected) BorderStroke(2.dp, swatch.accent)
+                        else BorderStroke(1.dp, swatch.accent.copy(alpha = .35f)),
                 ) {
                     Box(contentAlignment = Alignment.Center) {
                         if (isSelected) {
                             Icon(
                                 imageVector = Icons.Outlined.Check,
                                 contentDescription = null,
-                                tint = ListAccents[index],
+                                tint = swatch.accent,
                             )
                         }
                     }

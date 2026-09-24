@@ -1,5 +1,6 @@
 package com.composechef.taskmate.feature.lists.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,20 +19,18 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.composechef.taskmate.R
-import com.composechef.taskmate.core.designsystem.theme.Ink
-import com.composechef.taskmate.core.designsystem.theme.ListAccents
-import com.composechef.taskmate.core.designsystem.theme.ListColors
 import com.composechef.taskmate.core.designsystem.theme.TaskMateTheme
+import com.composechef.taskmate.core.designsystem.theme.listColor
 import com.composechef.taskmate.core.model.SharedList
 import com.composechef.taskmate.core.preview.PreviewData
 
 @Composable
 fun ListCard(list: SharedList, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    val colorIndex = list.color.mod(ListColors.size)
+    val colors = listColor(list.color)
     Card(
         onClick = onClick,
         modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = ListColors[colorIndex]),
+        colors = CardDefaults.cardColors(containerColor = colors.container),
         shape = RoundedCornerShape(24.dp),
     ) {
         Column(
@@ -42,7 +41,7 @@ fun ListCard(list: SharedList, onClick: () -> Unit, modifier: Modifier = Modifie
                 Text(
                     text = list.name,
                     style = MaterialTheme.typography.titleLarge,
-                    color = Ink,
+                    color = colors.onContainer,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -50,7 +49,7 @@ fun ListCard(list: SharedList, onClick: () -> Unit, modifier: Modifier = Modifie
                     Text(
                         text = list.description,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = Ink.copy(alpha = .65f),
+                        color = colors.onContainer.copy(alpha = .7f),
                     )
                 }
             }
@@ -65,7 +64,7 @@ fun ListCard(list: SharedList, onClick: () -> Unit, modifier: Modifier = Modifie
                         ),
                     modifier = Modifier.padding(start = 8.dp),
                     style = MaterialTheme.typography.labelMedium,
-                    color = ListAccents[colorIndex],
+                    color = colors.accent,
                 )
             }
         }
@@ -73,6 +72,7 @@ fun ListCard(list: SharedList, onClick: () -> Unit, modifier: Modifier = Modifie
 }
 
 @Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun ListCardPreview() {
     TaskMateTheme {

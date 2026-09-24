@@ -1,5 +1,6 @@
 package com.composechef.taskmate.feature.tasks.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -102,6 +103,7 @@ fun TaskRow(
 }
 
 @Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun TaskRowPreview() {
     TaskMateTheme {
