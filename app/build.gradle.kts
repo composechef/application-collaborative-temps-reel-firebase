@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.composechef.testmate"
+    namespace = "com.composechef.taskmate"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.composechef.testmate"
+        applicationId = "com.composechef.taskmate"
         minSdk = 24
         targetSdk = 37
         versionCode = 1
@@ -37,9 +37,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.appcompat)
-    implementation("androidx.navigation3:navigation3-ui:1.0.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.11.0")
-    implementation("androidx.compose.material:material-icons-extended:1.7.8")
+    implementation(libs.androidx.compose.material.icons.extended)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
