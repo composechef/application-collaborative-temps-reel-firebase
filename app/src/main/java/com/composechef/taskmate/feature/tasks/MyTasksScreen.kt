@@ -82,17 +82,18 @@ fun MyTasksScreen(
         }
     }
 
-    Scaffold(modifier = modifier, snackbarHost = { SnackbarHost(snackbarHostState) }) { padding ->
+    Scaffold(
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(snackbarHostState) }) { padding ->
         when (uiState) {
             MyTasksUiState.Loading -> LoadingState(modifier = Modifier.padding(padding))
-            is MyTasksUiState.Success ->
-                MyTasksContent(
-                    tasks = uiState.tasks,
-                    padding = padding,
-                    onOpenList = onOpenList,
-                    onToggleTask = toggleTask,
-                    onDeleteTask = deleteTask,
-                )
+            is MyTasksUiState.Success -> MyTasksContent(
+                tasks = uiState.tasks,
+                padding = padding,
+                onOpenList = onOpenList,
+                onToggleTask = toggleTask,
+                onDeleteTask = deleteTask,
+            )
         }
     }
 }
@@ -110,7 +111,9 @@ private fun MyTasksContent(
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
         LazyColumn(
-            modifier = Modifier.widthIn(max = 760.dp).fillMaxSize(),
+            modifier = Modifier
+                .widthIn(max = 760.dp)
+                .fillMaxSize(),
             contentPadding =
                 PaddingValues(
                     start = 24.dp,
@@ -120,13 +123,13 @@ private fun MyTasksContent(
                 ),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            item {
+            item("header") {
                 Text(
                     text = stringResource(R.string.my_tasks),
                     style = MaterialTheme.typography.headlineLarge,
                 )
             }
-            item {
+            item("filters") {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     FilterChip(
                         selected = !showCompleted,
@@ -163,17 +166,15 @@ private fun MyTasksContent(
                 }
             }
             if (visible.isEmpty()) {
-                item {
+                item("empty-state") {
                     EmptyState(
-                        title =
-                            stringResource(
-                                if (showCompleted) R.string.empty_completed else R.string.empty_mine
-                            ),
-                        description =
-                            stringResource(
-                                if (showCompleted) R.string.empty_my_completed_description
-                                else R.string.empty_my_tasks_description
-                            ),
+                        title = stringResource(
+                            if (showCompleted) R.string.empty_completed else R.string.empty_mine
+                        ),
+                        description = stringResource(
+                            if (showCompleted) R.string.empty_my_completed_description
+                            else R.string.empty_my_tasks_description
+                        ),
                     )
                 }
             }

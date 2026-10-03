@@ -54,38 +54,44 @@ fun TaskRow(
         ) {
             Row(
                 modifier =
-                    Modifier.fillMaxWidth()
+                    Modifier
+                        .fillMaxWidth()
                         .clickable(onClick = onOpen)
                         .padding(vertical = 12.dp, horizontal = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Checkbox(checked = task.completed, onCheckedChange = { onToggle() })
                 Column(
-                    modifier = Modifier.weight(1f).padding(end = 8.dp),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
                     Text(
                         text = task.title,
                         style = MaterialTheme.typography.bodyLarge,
                         textDecoration = if (task.completed) TextDecoration.LineThrough else null,
-                        color =
-                            if (task.completed) MaterialTheme.colorScheme.onSurfaceVariant
-                            else MaterialTheme.colorScheme.onSurface,
+                        color = if (task.completed) {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        } else {
+                            MaterialTheme.colorScheme.onSurface
+                        },
                     )
-                    val caption =
-                        listOfNotNull(
-                                if (showListName) list.name else null,
-                                task.due.takeUnless { it == DueDate.None }?.label(),
-                            )
-                            .joinToString(separator = " · ")
+
+                    val caption = listOfNotNull(
+                        if (showListName) list.name else null,
+                        task.due.takeUnless { it == DueDate.None }?.label(),
+                    ).joinToString(separator = " · ")
+
                     if (caption.isNotEmpty()) {
                         Text(
                             text = caption,
                             style = MaterialTheme.typography.labelSmall,
-                            color =
-                                if (task.due == DueDate.Today && !task.completed)
-                                    MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.onSurfaceVariant,
+                            color = if (task.due == DueDate.Today && !task.completed) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.onSurfaceVariant
+                            },
                         )
                     }
                 }

@@ -25,8 +25,13 @@ import com.composechef.taskmate.core.model.SharedList
 import com.composechef.taskmate.core.preview.PreviewData
 
 @Composable
-fun ListCard(list: SharedList, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun ListCard(
+    list: SharedList,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val colors = listColor(list.color)
+
     Card(
         onClick = onClick,
         modifier = modifier,
@@ -34,10 +39,13 @@ fun ListCard(list: SharedList, onClick: () -> Unit, modifier: Modifier = Modifie
         shape = RoundedCornerShape(24.dp),
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().padding(22.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(22.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
+
                 Text(
                     text = list.name,
                     style = MaterialTheme.typography.titleLarge,
@@ -45,6 +53,7 @@ fun ListCard(list: SharedList, onClick: () -> Unit, modifier: Modifier = Modifie
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
+
                 if (list.description.isNotBlank()) {
                     Text(
                         text = list.description,
@@ -52,16 +61,16 @@ fun ListCard(list: SharedList, onClick: () -> Unit, modifier: Modifier = Modifie
                         color = colors.onContainer.copy(alpha = .7f),
                     )
                 }
+
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 MemberAvatars(members = list.members)
                 Text(
-                    text =
-                        pluralStringResource(
-                            R.plurals.member_count,
-                            list.members.size,
-                            list.members.size,
-                        ),
+                    text = pluralStringResource(
+                        R.plurals.member_count,
+                        list.members.size,
+                        list.members.size,
+                    ),
                     modifier = Modifier.padding(start = 8.dp),
                     style = MaterialTheme.typography.labelMedium,
                     color = colors.accent,

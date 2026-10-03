@@ -43,20 +43,34 @@ fun SignUpScreen(
     val passwordValid = isValidPassword(password)
 
     AuthLayout(onBack = onBack, modifier = modifier) {
+
         Spacer(modifier = Modifier.height(12.dp))
+
         Text(
             text = stringResource(R.string.create_account),
             style = MaterialTheme.typography.headlineMedium,
         )
-        NameField(value = name, onValueChange = { name = it }, showError = submitted && !nameValid)
-        EmailField(value = email, onValueChange = { email = it }, showError = submitted && !emailValid)
+
+        NameField(
+            value = name, onValueChange = { name = it },
+            showError = submitted && !nameValid
+        )
+
+        EmailField(
+            value = email,
+            onValueChange = { email = it },
+            showError = submitted && !emailValid
+        )
+
         PasswordField(
             value = password,
             onValueChange = { password = it },
             showError = submitted && !passwordValid,
             showHint = true,
         )
+
         AuthErrorMessage(message = (uiState as? AuthUiState.Error)?.message)
+
         LoadingButton(
             text = stringResource(R.string.create_account),
             isLoading = uiState is AuthUiState.Loading,
@@ -67,7 +81,11 @@ fun SignUpScreen(
                 }
             },
         )
-        TextButton(onClick = onSignIn, modifier = Modifier.align(Alignment.CenterHorizontally)) {
+
+        TextButton(
+            onClick = onSignIn,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
             Text(text = stringResource(R.string.existing_account))
         }
     }

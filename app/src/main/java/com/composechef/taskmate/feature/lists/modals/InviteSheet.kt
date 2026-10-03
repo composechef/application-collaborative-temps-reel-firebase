@@ -1,4 +1,4 @@
-package com.composechef.taskmate.feature.lists
+package com.composechef.taskmate.feature.lists.modals
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -34,8 +34,12 @@ fun InviteSheet(list: SharedList, onDismiss: () -> Unit) {
 
     TaskMateSheet(onDismiss = onDismiss) {
         Text(text = stringResource(R.string.invite), style = MaterialTheme.typography.titleLarge)
+
         Text(
-            text = stringResource(R.string.invite_description, list.name),
+            text = stringResource(
+                R.string.invite_description,
+                list.name
+            ),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Surface(
@@ -44,7 +48,9 @@ fun InviteSheet(list: SharedList, onDismiss: () -> Unit) {
         ) {
             Text(
                 text = list.code,
-                modifier = Modifier.fillMaxWidth().padding(24.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp),
                 style = MaterialTheme.typography.headlineLarge,
                 letterSpacing = 6.sp,
             )
@@ -64,14 +70,17 @@ fun InviteSheet(list: SharedList, onDismiss: () -> Unit) {
         }
         OutlinedButton(
             onClick = {
-                val send =
-                    Intent(Intent.ACTION_SEND).apply {
-                        type = "text/plain"
-                        putExtra(
-                            Intent.EXTRA_TEXT,
-                            resources.getString(R.string.share_invitation_body, list.name, list.code),
-                        )
-                    }
+                val send = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(
+                        Intent.EXTRA_TEXT,
+                        resources.getString(
+                            R.string.share_invitation_body,
+                            list.name,
+                            list.code
+                        ),
+                    )
+                }
                 context.startActivity(
                     Intent.createChooser(send, resources.getString(R.string.share_invitation))
                 )

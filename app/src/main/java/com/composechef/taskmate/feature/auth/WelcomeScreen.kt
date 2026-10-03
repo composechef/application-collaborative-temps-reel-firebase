@@ -24,7 +24,10 @@ fun WelcomeScreen(
     onSignIn: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    AuthLayout(onBack = null, modifier = modifier) {
+    AuthLayout(
+        onBack = null,
+        modifier = modifier
+    ) {
         Column(
             modifier = Modifier.padding(top = 40.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -35,10 +38,18 @@ fun WelcomeScreen(
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-            Button(onClick = onGetStarted, modifier = Modifier.fillMaxWidth().height(54.dp)) {
+            Button(
+                onClick = onGetStarted, modifier = Modifier
+                    .fillMaxWidth()
+                    .height(54.dp)
+            ) {
                 Text(text = stringResource(R.string.get_started))
             }
-            OutlinedButton(onClick = onSignIn, modifier = Modifier.fillMaxWidth().height(54.dp)) {
+            OutlinedButton(
+                onClick = onSignIn, modifier = Modifier
+                    .fillMaxWidth()
+                    .height(54.dp)
+            ) {
                 Text(text = stringResource(R.string.sign_in))
             }
         }

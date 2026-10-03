@@ -1,4 +1,4 @@
-package com.composechef.taskmate.feature.lists
+package com.composechef.taskmate.feature.lists.modals
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -27,12 +27,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.selected
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.composechef.taskmate.R
 import com.composechef.taskmate.core.designsystem.components.TaskMateSheet
+import com.composechef.taskmate.core.designsystem.theme.ListColor
 import com.composechef.taskmate.core.designsystem.theme.listColor
 
 @Composable
@@ -42,17 +40,22 @@ fun CreateListSheet(
 ) {
     var name by rememberSaveable { mutableStateOf("") }
     var description by rememberSaveable { mutableStateOf("") }
-    var color by rememberSaveable { mutableIntStateOf(0) }
-    val colorLabels =
-        listOf(
-            stringResource(R.string.color_indigo),
-            stringResource(R.string.color_green),
-            stringResource(R.string.color_amber),
-            stringResource(R.string.color_rose),
-        )
+    var selectedColorIndex by rememberSaveable { mutableIntStateOf(0) }
+
+    val colorLabels = listOf(
+        stringResource(R.string.color_indigo),
+        stringResource(R.string.color_green),
+        stringResource(R.string.color_amber),
+        stringResource(R.string.color_rose),
+    )
 
     TaskMateSheet(onDismiss = onDismiss) {
-        Text(text = stringResource(R.string.new_list), style = MaterialTheme.typography.headlineMedium)
+
+        Text(
+            text = stringResource(R.string.new_list),
+            style = MaterialTheme.typography.headlineMedium
+        )
+
         OutlinedTextField(
             value = name,
             onValueChange = { name = it.take(60) },
@@ -61,6 +64,7 @@ fun CreateListSheet(
             placeholder = { Text(text = stringResource(R.string.list_placeholder)) },
             singleLine = true,
         )
+
         OutlinedTextField(
             value = description,
             onValueChange = { description = it.take(180) },
@@ -68,47 +72,68 @@ fun CreateListSheet(
             label = { Text(text = stringResource(R.string.description_optional)) },
             maxLines = 3,
         )
-        Text(text = stringResource(R.string.color), style = MaterialTheme.typography.labelLarge)
+
+        Text(
+            text = stringResource(R.string.color),
+            style = MaterialTheme.typography.labelLarge
+        )
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             colorLabels.forEachIndexed { index, label ->
-                val isSelected = color == index
-                val swatch = listColor(index)
-                Surface(
-                    modifier =
-                        Modifier.size(48.dp)
-                            .semantics {
-                                contentDescription = label
-                                selected = isSelected
-                            }
-                            .selectable(
-                                selected = isSelected,
-                                role = Role.RadioButton,
-                                onClick = { color = index },
-                            ),
-                    shape = CircleShape,
-                    color = swatch.container,
-                    border =
-                        if (isSelected) BorderStroke(2.dp, swatch.accent)
-                        else BorderStroke(1.dp, swatch.accent.copy(alpha = .35f)),
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        if (isSelected) {
-                            Icon(
-                                imageVector = Icons.Outlined.Check,
-                                contentDescription = null,
-                                tint = swatch.accent,
-                            )
-                        }
+                val isSelected = selectedColorIndex == index
+                val color = listColor(index)
+                ColorSurface(
+                    isSelected = isSelected,
+                    index = index,
+                    color = color,
+                    onSelect = {
+                        selectedColorIndex = index
                     }
-                }
+                )
             }
         }
         Button(
-            onClick = { onCreate(name.trim(), description.trim(), color) },
+            onClick = { onCreate(name.trim(), description.trim(), selectedColorIndex) },
             enabled = name.isNotBlank(),
-            modifier = Modifier.fillMaxWidth().height(52.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp),
         ) {
             Text(text = stringResource(R.string.create_list))
+        }
+    }
+}
+
+@Composable
+private fun ColorSurface(
+    isSelected: Boolean,
+    index: Int,
+    color: ListColor,
+    onSelect: (Int) -> Unit
+) {
+    Surface(
+        modifier = Modifier
+            .size(48.dp)
+            .selectable(
+                selected = isSelected,
+                role = Role.RadioButton,
+                onClick = { onSelect(index) },
+            ),
+        shape = CircleShape,
+        color = color.container,
+        border = if (isSelected) {
+            BorderStroke(2.dp, color.accent)
+        } else {
+            BorderStroke(1.dp, color.accent.copy(alpha = .35f))
+        },
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            if (isSelected) {
+                Icon(
+                    imageVector = Icons.Outlined.Check,
+                    contentDescription = null,
+                    tint = color.accent,
+                )
+            }
         }
     }
 }

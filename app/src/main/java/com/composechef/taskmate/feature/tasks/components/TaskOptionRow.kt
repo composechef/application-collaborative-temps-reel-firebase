@@ -21,10 +21,15 @@ import androidx.compose.ui.unit.dp
 import com.composechef.taskmate.R
 
 @Composable
-internal fun TaskOptionRow(label: String, value: String, onClick: () -> Unit) {
+internal fun TaskOptionRow(
+    label: String,
+    value: String,
+    onClick: () -> Unit
+) {
     Row(
         modifier =
-            Modifier.fillMaxWidth()
+            Modifier
+                .fillMaxWidth()
                 .heightIn(min = 48.dp)
                 .clickable(
                     role = Role.Button,
@@ -41,7 +46,11 @@ internal fun TaskOptionRow(label: String, value: String, onClick: () -> Unit) {
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        Text(text = value, modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodyMedium)
+        Text(
+            text = value,
+            modifier = Modifier.weight(1f),
+            style = MaterialTheme.typography.bodyMedium
+        )
         Icon(
             imageVector = Icons.Outlined.ExpandMore,
             contentDescription = null,

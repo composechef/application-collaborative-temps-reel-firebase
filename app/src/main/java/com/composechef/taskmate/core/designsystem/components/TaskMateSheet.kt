@@ -18,14 +18,18 @@ import androidx.compose.ui.unit.dp
 /** La bottom sheet commune à tous les formulaires de l'app. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskMateSheet(onDismiss: () -> Unit, content: @Composable ColumnScope.() -> Unit) {
+fun TaskMateSheet(
+    onDismiss: () -> Unit,
+    content: @Composable ColumnScope.() -> Unit
+) {
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
     ) {
         Column(
             modifier =
-                Modifier.fillMaxWidth()
+                Modifier
+                    .fillMaxWidth()
                     .imePadding()
                     .verticalScroll(rememberScrollState())
                     .padding(start = 24.dp, end = 24.dp, bottom = 32.dp),

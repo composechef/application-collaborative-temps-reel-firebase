@@ -24,7 +24,9 @@ fun LoadingButton(
     Button(
         onClick = onClick,
         enabled = enabled && !isLoading,
-        modifier = modifier.fillMaxWidth().height(52.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .height(52.dp),
     ) {
         if (isLoading) {
             CircularProgressIndicator(modifier = Modifier.size(22.dp), strokeWidth = 2.dp)

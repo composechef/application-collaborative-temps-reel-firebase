@@ -14,20 +14,7 @@ Pour voir les autres écrans, ouvre leurs previews (par exemple `feature/lists/L
 
 ## Structure
 
-```text
-com/composechef/taskmate/
-  MainActivity.kt
-  core/
-    model/          User, Member, SharedList, Task, DueDate, ListInvite
-    designsystem/   thème et composants partagés (HomeScaffold, SwipeActions, TaskMateSheet…)
-    localization/   libellés des échéances
-    preview/        données d'exemple pour les previews
-  feature/
-    auth/           accueil, connexion, inscription, mot de passe oublié
-    lists/          listes, détail d'une liste, création, invitation, membres
-    tasks/          « Mes tâches » et éditeur de tâche
-    profile/        profil et déconnexion
-```
+
 
 ## Langues
 

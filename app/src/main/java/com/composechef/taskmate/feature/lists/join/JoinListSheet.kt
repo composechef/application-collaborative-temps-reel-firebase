@@ -1,4 +1,4 @@
-package com.composechef.taskmate.feature.lists
+package com.composechef.taskmate.feature.lists.join
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
@@ -17,10 +17,7 @@ import com.composechef.taskmate.core.designsystem.components.TaskMateSheet
 import com.composechef.taskmate.core.model.ListInvite
 import com.composechef.taskmate.feature.lists.components.InvitePreview
 
-/**
- * Rejoindre une liste en deux temps : on cherche le code, on voit un aperçu de la liste, puis on
- * la rejoint.
- */
+
 @Composable
 fun JoinListSheet(
     uiState: JoinListUiState,
@@ -49,9 +46,11 @@ fun JoinListSheet(
             isError = result is JoinListUiState.NotFound,
             supportingText = {
                 Text(
-                    text =
-                        if (result is JoinListUiState.NotFound) stringResource(R.string.invalid_code)
-                        else stringResource(R.string.code_hint)
+                    text = if (result is JoinListUiState.NotFound) {
+                        stringResource(R.string.invalid_code)
+                    } else {
+                        stringResource(R.string.code_hint)
+                    }
                 )
             },
         )
@@ -64,16 +63,16 @@ fun JoinListSheet(
                     onClick = { onJoin(result.invite) },
                 )
             }
-            else ->
-                LoadingButton(
-                    text = stringResource(R.string.find_list),
-                    isLoading = result is JoinListUiState.Searching,
-                    enabled = code.length == ListInvite.CODE_LENGTH,
-                    onClick = {
-                        searchedCode = code
-                        onSearch(code)
-                    },
-                )
+
+            else -> LoadingButton(
+                text = stringResource(R.string.find_list),
+                isLoading = result is JoinListUiState.Searching,
+                enabled = code.length == ListInvite.CODE_LENGTH,
+                onClick = {
+                    searchedCode = code
+                    onSearch(code)
+                },
+            )
         }
     }
 }

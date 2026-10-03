@@ -1,4 +1,4 @@
-package com.composechef.taskmate.feature.lists
+package com.composechef.taskmate.feature.lists.modals
 
 import com.composechef.taskmate.core.model.Task
 

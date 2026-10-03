@@ -1,4 +1,4 @@
-package com.composechef.taskmate.feature.lists
+package com.composechef.taskmate.feature.lists.modals
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -17,12 +17,21 @@ import com.composechef.taskmate.core.designsystem.components.TaskMateSheet
 import com.composechef.taskmate.core.model.Member
 
 @Composable
-fun MembersSheet(members: List<Member>, currentUserId: String, onDismiss: () -> Unit) {
+fun MembersSheet(
+    members: List<Member>,
+    currentUserId: String,
+    onDismiss: () -> Unit
+) {
     TaskMateSheet(onDismiss = onDismiss) {
-        Text(text = stringResource(R.string.members), style = MaterialTheme.typography.titleLarge)
+        Text(
+            text = stringResource(R.string.members),
+            style = MaterialTheme.typography.titleLarge
+        )
         members.forEachIndexed { index, member ->
             Row(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {

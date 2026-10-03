@@ -42,17 +42,30 @@ fun SignInScreen(
 
     AuthLayout(onBack = onBack, modifier = modifier) {
         Spacer(modifier = Modifier.height(12.dp))
-        Text(text = stringResource(R.string.sign_in), style = MaterialTheme.typography.headlineMedium)
-        EmailField(value = email, onValueChange = { email = it }, showError = submitted && !emailValid)
+
+        Text(
+            text = stringResource(R.string.sign_in),
+            style = MaterialTheme.typography.headlineMedium
+        )
+
+        EmailField(
+            value = email,
+            onValueChange = { email = it },
+            showError = submitted && !emailValid
+        )
+
         PasswordField(
             value = password,
             onValueChange = { password = it },
             showError = submitted && !passwordValid,
         )
+
         TextButton(onClick = onForgotPassword, modifier = Modifier.align(Alignment.End)) {
             Text(text = stringResource(R.string.forgot_password))
         }
+
         AuthErrorMessage(message = (uiState as? AuthUiState.Error)?.message)
+
         LoadingButton(
             text = stringResource(R.string.sign_in),
             isLoading = uiState is AuthUiState.Loading,
@@ -61,7 +74,11 @@ fun SignInScreen(
                 if (emailValid && passwordValid) onSignIn(email.trim(), password)
             },
         )
-        TextButton(onClick = onCreateAccount, modifier = Modifier.align(Alignment.CenterHorizontally)) {
+        
+        TextButton(
+            onClick = onCreateAccount,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
             Text(text = stringResource(R.string.create_account))
         }
     }

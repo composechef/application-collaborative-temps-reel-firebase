@@ -35,18 +35,29 @@ fun ResetPasswordScreen(
     val emailValid = isValidEmail(email)
 
     AuthLayout(onBack = onBack, modifier = modifier) {
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(
+            modifier = Modifier.height(12.dp)
+        )
         Text(
             text = stringResource(R.string.reset_password),
             style = MaterialTheme.typography.headlineMedium,
         )
+
         Text(
             text = stringResource(R.string.reset_password_description),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        EmailField(value = email, onValueChange = { email = it }, showError = submitted && !emailValid)
-        AuthErrorMessage(message = (uiState as? ResetPasswordUiState.Error)?.message)
+
+        EmailField(
+            value = email,
+            onValueChange = { email = it },
+            showError = submitted && !emailValid
+        )
+
+        AuthErrorMessage(
+            message = (uiState as? ResetPasswordUiState.Error)?.message
+        )
         LoadingButton(
             text = stringResource(R.string.send_reset_email),
             isLoading = uiState is ResetPasswordUiState.Sending,
@@ -60,10 +71,25 @@ fun ResetPasswordScreen(
     if (uiState is ResetPasswordUiState.EmailSent) {
         AlertDialog(
             onDismissRequest = onBack,
-            title = { Text(text = stringResource(R.string.reset_email_sent_title)) },
-            text = { Text(text = stringResource(R.string.reset_email_sent_body, uiState.email)) },
+            title = {
+                Text(
+                    text = stringResource(R.string.reset_email_sent_title)
+                )
+            },
+            text = {
+                Text(
+                    text = stringResource(
+                        R.string.reset_email_sent_body,
+                        uiState.email
+                    )
+                )
+            },
             confirmButton = {
-                TextButton(onClick = onBack) { Text(text = stringResource(R.string.back_sign_in)) }
+                TextButton(onClick = onBack) {
+                    Text(
+                        text = stringResource(R.string.back_sign_in)
+                    )
+                }
             },
         )
     }
@@ -73,6 +99,10 @@ fun ResetPasswordScreen(
 @Composable
 private fun ResetPasswordScreenPreview() {
     TaskMateTheme {
-        ResetPasswordScreen(uiState = ResetPasswordUiState.Idle, onSendResetEmail = {}, onBack = {})
+        ResetPasswordScreen(
+            uiState = ResetPasswordUiState.Idle,
+            onSendResetEmail = {},
+            onBack = {}
+        )
     }
 }

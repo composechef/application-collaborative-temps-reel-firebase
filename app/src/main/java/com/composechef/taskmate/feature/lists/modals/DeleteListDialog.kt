@@ -1,4 +1,4 @@
-package com.composechef.taskmate.feature.lists
+package com.composechef.taskmate.feature.lists.modals
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
@@ -13,19 +13,32 @@ import com.composechef.taskmate.R
 fun DeleteListDialog(name: String, onDismiss: () -> Unit, onConfirm: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(text = stringResource(R.string.delete_list_title)) },
-        text = { Text(text = stringResource(R.string.delete_list_body, name)) },
+        title = {
+            Text(
+                text = stringResource(R.string.delete_list_title)
+            )
+        },
+        text = {
+            Text(
+                text = stringResource(
+                    R.string.delete_list_body, name
+                )
+            )
+        },
         confirmButton = {
             TextButton(
                 onClick = onConfirm,
-                colors =
-                    ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
+                colors = ButtonDefaults.textButtonColors(
+                    contentColor = MaterialTheme.colorScheme.error
+                ),
             ) {
                 Text(text = stringResource(R.string.delete))
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text(text = stringResource(R.string.cancel)) }
+            TextButton(onClick = onDismiss) {
+                Text(text = stringResource(R.string.cancel))
+            }
         },
     )
 }

@@ -15,74 +15,70 @@ internal object PreviewData {
 
     val user = User(id = alex.id, name = alex.name, email = "alex@example.com")
 
-    val launch =
-        SharedList(
-            id = "launch",
-            name = "Lancement du studio",
-            description = "Préparer le lancement du studio.",
-            color = 0,
-            code = "STUDIO",
-            ownerId = alex.id,
-            members = listOf(alex, sam, jules),
-        )
+    val launch = SharedList(
+        id = "launch",
+        name = "Lancement du studio",
+        description = "Préparer le lancement du studio.",
+        color = 0,
+        code = "STUDIO",
+        ownerId = alex.id,
+        members = listOf(alex, sam, jules),
+    )
 
-    val home =
-        SharedList(
-            id = "home",
-            name = "À la maison",
-            description = "Organiser les projets de la maison.",
-            color = 1,
-            code = "HOMELY",
-            ownerId = sam.id,
-            members = listOf(alex, sam),
-        )
+    val home = SharedList(
+        id = "home",
+        name = "À la maison",
+        description = "Organiser les projets de la maison.",
+        color = 1,
+        code = "HOMELY",
+        ownerId = sam.id,
+        members = listOf(alex, sam),
+    )
 
-    val weekend =
-        SharedList(
-            id = "weekend",
-            name = "Week-end",
-            description = "Préparer nos prochaines sorties.",
-            color = 2,
-            code = "WKND26",
-            ownerId = alex.id,
-            members = listOf(alex, sam, jules),
-        )
+    val weekend = SharedList(
+        id = "weekend",
+        name = "Week-end",
+        description = "Préparer nos prochaines sorties.",
+        color = 2,
+        code = "WKND26",
+        ownerId = alex.id,
+        members = listOf(alex, sam, jules),
+    )
 
     val lists = listOf(launch, home, weekend)
 
-    val tasks =
-        listOf(
-            Task(
-                id = "moodboard",
-                listId = launch.id,
-                title = "Créer le tableau d’inspiration",
-                assigneeId = alex.id,
-                due = DueDate.Today,
-            ),
-            Task(
-                id = "logo",
-                listId = launch.id,
-                title = "Proposer des pistes de logo",
-                assigneeId = sam.id,
-                due = DueDate.Tomorrow,
-            ),
-            Task(
-                id = "venue",
-                listId = launch.id,
-                title = "Réserver la salle",
-                assigneeId = alex.id,
-                due = DueDate.ThisWeek,
-                completed = true,
-            ),
-            Task(
-                id = "tap",
-                listId = home.id,
-                title = "Réparer le robinet de la cuisine",
-                assigneeId = alex.id,
-                due = DueDate.ThisWeek,
-            ),
-            Task(id = "restaurant", listId = weekend.id, title = "Choisir le restaurant"),
-        )
+    val tasks = listOf(
+        Task(
+            id = "moodboard",
+            listId = launch.id,
+            title = "Créer le tableau d’inspiration",
+            assigneeId = alex.id,
+            due = DueDate.Today,
+        ),
+        Task(
+            id = "logo",
+            listId = launch.id,
+            title = "Proposer des pistes de logo",
+            assigneeId = sam.id,
+            due = DueDate.Tomorrow,
+        ),
+        Task(
+            id = "venue",
+            listId = launch.id,
+            title = "Réserver la salle",
+            assigneeId = alex.id,
+            due = DueDate.ThisWeek,
+            completed = true,
+        ),
+        Task(
+            id = "tap",
+            listId = home.id,
+            title = "Réparer le robinet de la cuisine",
+            assigneeId = alex.id,
+            due = DueDate.ThisWeek,
+        ),
+        Task(id = "restaurant", listId = weekend.id, title = "Choisir le restaurant"),
+    )
 
     val invite = ListInvite(code = "TOGETH", listId = "garden", name = "Jardin partagé", color = 3)
 }

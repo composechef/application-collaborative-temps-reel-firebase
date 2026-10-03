@@ -19,9 +19,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun EmptyState(title: String, description: String, modifier: Modifier = Modifier) {
+fun EmptyState(
+    title: String,
+    description: String,
+    modifier: Modifier = Modifier
+) {
     Column(
-        modifier = modifier.fillMaxWidth().padding(vertical = 32.dp, horizontal = 20.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 32.dp, horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
@@ -29,11 +35,17 @@ fun EmptyState(title: String, description: String, modifier: Modifier = Modifier
             Icon(
                 imageVector = Icons.Outlined.Check,
                 contentDescription = null,
-                modifier = Modifier.padding(20.dp).size(28.dp),
+                modifier = Modifier
+                    .padding(20.dp)
+                    .size(28.dp),
                 tint = MaterialTheme.colorScheme.primary,
             )
         }
-        Text(text = title, style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleLarge,
+            textAlign = TextAlign.Center
+        )
         Text(
             text = description,
             style = MaterialTheme.typography.bodyMedium,

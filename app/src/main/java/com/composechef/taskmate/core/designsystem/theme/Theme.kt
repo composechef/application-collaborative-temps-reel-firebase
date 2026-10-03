@@ -39,7 +39,7 @@ private val LightColors =
 
 /**
  * Chaque rôle est défini explicitement : sinon, Material 3 complète avec sa palette de base,
- * teintée de violet, qui ne s'accorde pas avec les gris neutres de l'app.
+ * teintée de violet, qui ne s'accorde pas avec l'app.
  */
 private val DarkColors =
     darkColorScheme(

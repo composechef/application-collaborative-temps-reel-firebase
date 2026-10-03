@@ -19,7 +19,10 @@ import com.composechef.taskmate.core.model.Member
 fun Avatar(member: Member, modifier: Modifier = Modifier, index: Int = 0) {
     val colors = listColor(index)
     Box(
-        modifier = modifier.size(32.dp).clip(CircleShape).background(colors.container),
+        modifier = modifier
+            .size(32.dp)
+            .clip(CircleShape)
+            .background(colors.container),
         contentAlignment = Alignment.Center,
     ) {
         Text(

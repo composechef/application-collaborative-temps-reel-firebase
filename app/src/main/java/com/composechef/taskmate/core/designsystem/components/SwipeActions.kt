@@ -56,15 +56,23 @@ fun SwipeActions(
     var offset by remember { mutableFloatStateOf(0f) }
     val delete by rememberUpdatedState(onDelete)
     val complete by rememberUpdatedState(onComplete)
+
     Box(modifier = modifier.clip(RoundedCornerShape(18.dp))) {
         if (offset < 0f) {
-            Box(Modifier.matchParentSize().background(MaterialTheme.colorScheme.errorContainer)) {
+            Box(
+                Modifier
+                    .matchParentSize()
+                    .background(MaterialTheme.colorScheme.errorContainer)
+            ) {
                 TextButton(
                     onClick = {
                         offset = 0f
                         delete()
                     },
-                    modifier = Modifier.align(Alignment.CenterEnd).width(96.dp).fillMaxHeight(),
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .width(96.dp)
+                        .fillMaxHeight(),
                     colors =
                         ButtonDefaults.textButtonColors(
                             contentColor = MaterialTheme.colorScheme.onErrorContainer
@@ -79,7 +87,9 @@ fun SwipeActions(
         } else if (offset > 0f) {
             Box(
                 modifier =
-                    Modifier.matchParentSize().background(MaterialTheme.colorScheme.primaryContainer),
+                    Modifier
+                        .matchParentSize()
+                        .background(MaterialTheme.colorScheme.primaryContainer),
                 contentAlignment = Alignment.CenterStart,
             ) {
                 Icon(
@@ -92,7 +102,8 @@ fun SwipeActions(
         }
         Box(
             modifier =
-                Modifier.offset { IntOffset(offset.roundToInt(), 0) }
+                Modifier
+                    .offset { IntOffset(offset.roundToInt(), 0) }
                     .semantics {
                         customActions = buildList {
                             add(
@@ -113,14 +124,13 @@ fun SwipeActions(
                         }
                     }
                     .draggable(
-                        state =
-                            rememberDraggableState { delta ->
-                                offset =
-                                    (offset + delta).coerceIn(
-                                        -actionWidth,
-                                        if (complete != null) actionWidth else 0f,
-                                    )
-                            },
+                        state = rememberDraggableState { delta ->
+                            offset =
+                                (offset + delta).coerceIn(
+                                    -actionWidth,
+                                    if (complete != null) actionWidth else 0f,
+                                )
+                        },
                         orientation = Orientation.Horizontal,
                         onDragStopped = {
                             if (offset >= actionWidth * .8f && complete != null) {

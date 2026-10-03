@@ -127,7 +127,9 @@ fun TaskEditorSheet(
                 )
             },
             enabled = title.isNotBlank(),
-            modifier = Modifier.fillMaxWidth().height(52.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp),
         ) {
             Text(text = stringResource(if (isNew) R.string.add_task else R.string.save_changes))
         }

@@ -1,4 +1,4 @@
-package com.composechef.taskmate.feature.lists
+package com.composechef.taskmate.feature.lists.details
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
@@ -51,8 +51,13 @@ import com.composechef.taskmate.core.designsystem.theme.TaskMateTheme
 import com.composechef.taskmate.core.model.SharedList
 import com.composechef.taskmate.core.model.Task
 import com.composechef.taskmate.core.preview.PreviewData
+import com.composechef.taskmate.feature.lists.modals.MembersSheet
+import com.composechef.taskmate.feature.lists.TaskFilter
 import com.composechef.taskmate.feature.lists.components.MemberAvatars
 import com.composechef.taskmate.feature.lists.components.TaskFilterChips
+import com.composechef.taskmate.feature.lists.modals.DeleteListDialog
+import com.composechef.taskmate.feature.lists.modals.InviteSheet
+import com.composechef.taskmate.feature.lists.modals.ListSheet
 import com.composechef.taskmate.feature.tasks.TaskEditorSheet
 import com.composechef.taskmate.feature.tasks.components.TaskRow
 import kotlinx.coroutines.launch
@@ -90,6 +95,7 @@ fun ListDetailScreen(
             )
         }
     }
+
     val deleteTask: (Task) -> Unit = { task ->
         onDeleteTask(task)
         scope.launch {
@@ -170,51 +176,57 @@ fun ListDetailScreen(
         },
     ) { padding ->
         when (uiState) {
-            ListDetailUiState.Loading -> LoadingState(modifier = Modifier.padding(padding))
-            ListDetailUiState.NotFound ->
-                EmptyState(
-                    title = stringResource(R.string.list_not_found),
-                    description = stringResource(R.string.list_not_found_description),
-                    modifier = Modifier.padding(padding),
-                )
-            is ListDetailUiState.Success ->
-                ListDetailContent(
-                    list = uiState.list,
-                    tasks = uiState.tasks,
-                    currentUserId = uiState.currentUserId,
-                    padding = padding,
-                    onOpenTask = { sheet = ListSheet.EditTask(it, isNew = false) },
-                    onToggleTask = toggleTask,
-                    onDeleteTask = deleteTask,
-                    onShowMembers = { sheet = ListSheet.Members },
-                )
+            ListDetailUiState.Loading -> LoadingState(
+                modifier = Modifier.padding(padding)
+            )
+
+            ListDetailUiState.NotFound -> EmptyState(
+                title = stringResource(R.string.list_not_found),
+                description = stringResource(R.string.list_not_found_description),
+                modifier = Modifier.padding(padding),
+            )
+
+            is ListDetailUiState.Success -> ListDetailContent(
+                list = uiState.list,
+                tasks = uiState.tasks,
+                currentUserId = uiState.currentUserId,
+                padding = padding,
+                onOpenTask = { sheet = ListSheet.EditTask(it, isNew = false) },
+                onToggleTask = toggleTask,
+                onDeleteTask = deleteTask,
+                onShowMembers = { sheet = ListSheet.Members },
+            )
         }
     }
 
     if (success != null) {
         when (val activeSheet = sheet) {
-            ListSheet.Invite -> InviteSheet(list = success.list, onDismiss = { sheet = null })
-            ListSheet.Members ->
-                MembersSheet(
-                    members = success.list.members,
-                    currentUserId = success.currentUserId,
-                    onDismiss = { sheet = null },
-                )
-            is ListSheet.EditTask ->
-                TaskEditorSheet(
-                    task = activeSheet.task,
-                    list = success.list,
-                    isNew = activeSheet.isNew,
-                    onDismiss = { sheet = null },
-                    onSave = { task ->
-                        sheet = null
-                        onSaveTask(task)
-                    },
-                    onDelete = {
-                        sheet = null
-                        deleteTask(activeSheet.task)
-                    },
-                )
+            ListSheet.Invite -> InviteSheet(
+                list = success.list,
+                onDismiss = { sheet = null }
+            )
+
+            ListSheet.Members -> MembersSheet(
+                members = success.list.members,
+                currentUserId = success.currentUserId,
+                onDismiss = { sheet = null },
+            )
+
+            is ListSheet.EditTask -> TaskEditorSheet(
+                task = activeSheet.task,
+                list = success.list,
+                isNew = activeSheet.isNew,
+                onDismiss = { sheet = null },
+                onSave = { task ->
+                    sheet = null
+                    onSaveTask(task)
+                },
+                onDelete = {
+                    sheet = null
+                    deleteTask(activeSheet.task)
+                },
+            )
+
             null -> Unit
         }
         if (confirmDelete) {
@@ -247,7 +259,9 @@ private fun ListDetailContent(
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
         LazyColumn(
-            modifier = Modifier.widthIn(max = 760.dp).fillMaxSize(),
+            modifier = Modifier
+                .widthIn(max = 760.dp)
+                .fillMaxSize(),
             contentPadding =
                 PaddingValues(
                     start = 24.dp,
@@ -257,22 +271,24 @@ private fun ListDetailContent(
                 ),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            item {
-                TextButton(onClick = onShowMembers, contentPadding = PaddingValues(vertical = 8.dp)) {
+            item("members") {
+                TextButton(
+                    onClick = onShowMembers,
+                    contentPadding = PaddingValues(vertical = 8.dp)
+                ) {
                     MemberAvatars(members = list.members)
                     Text(
-                        text =
-                            pluralStringResource(
-                                R.plurals.member_count,
-                                list.members.size,
-                                list.members.size,
-                            ),
+                        text = pluralStringResource(
+                            R.plurals.member_count,
+                            list.members.size,
+                            list.members.size,
+                        ),
                         modifier = Modifier.padding(start = 8.dp),
                     )
                 }
             }
             if (list.description.isNotBlank()) {
-                item {
+                item("description") {
                     Text(
                         text = list.description,
                         style = MaterialTheme.typography.bodyMedium,
@@ -280,20 +296,19 @@ private fun ListDetailContent(
                     )
                 }
             }
-            item {
+            item("completed-task") {
                 Text(
-                    text =
-                        pluralStringResource(
-                            R.plurals.progress,
-                            completedCount,
-                            completedCount,
-                            tasks.size,
-                        ),
+                    text = pluralStringResource(
+                        R.plurals.progress,
+                        completedCount,
+                        completedCount,
+                        tasks.size,
+                    ),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-            item {
+            item("task-filter") {
                 TaskFilterChips(selected = filter, onSelect = { filter = it })
             }
             items(filtered, key = { it.id }) { task ->
@@ -306,7 +321,7 @@ private fun ListDetailContent(
                 )
             }
             if (filtered.isEmpty()) {
-                item {
+                item("empty-state") {
                     EmptyState(
                         title = stringResource(filter.emptyTitle),
                         description = stringResource(filter.emptyDescription),

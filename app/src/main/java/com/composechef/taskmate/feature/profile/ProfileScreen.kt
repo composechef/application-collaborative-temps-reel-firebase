@@ -39,7 +39,6 @@ import com.composechef.taskmate.R
 import com.composechef.taskmate.core.designsystem.theme.TaskMateTheme
 import com.composechef.taskmate.core.model.initialsOf
 
-/** Le profil de l'utilisateur connecté. La déconnexion demande une confirmation. */
 @Composable
 fun ProfileScreen(
     name: String,
@@ -52,7 +51,8 @@ fun ProfileScreen(
     Surface(modifier = modifier.fillMaxSize()) {
         Column(
             modifier =
-                Modifier.fillMaxSize()
+                Modifier
+                    .fillMaxSize()
                     .safeDrawingPadding()
                     .verticalScroll(rememberScrollState())
                     .padding(24.dp),
@@ -96,7 +96,10 @@ fun ProfileScreen(
             }
             TextButton(
                 onClick = { confirmSignOut = true },
-                modifier = Modifier.widthIn(max = 440.dp).fillMaxWidth().padding(vertical = 8.dp),
+                modifier = Modifier
+                    .widthIn(max = 440.dp)
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
             ) {
                 Icon(imageVector = Icons.AutoMirrored.Outlined.Logout, contentDescription = null)

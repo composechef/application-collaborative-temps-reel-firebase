@@ -36,6 +36,7 @@ import com.composechef.taskmate.core.designsystem.theme.TaskMateTheme
 import com.composechef.taskmate.core.model.SharedList
 import com.composechef.taskmate.core.preview.PreviewData
 import com.composechef.taskmate.feature.lists.components.ListCard
+import com.composechef.taskmate.feature.lists.modals.CreateListSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,22 +55,37 @@ fun ListsScreen(
             TopAppBar(
                 title = { Text(text = stringResource(R.string.lists)) },
                 actions = {
-                    TextButton(onClick = onJoinList) { Text(text = stringResource(R.string.join_code)) }
+                    TextButton(
+                        onClick = onJoinList
+                    ) {
+                        Text(text = stringResource(R.string.join_code))
+                    }
                 },
             )
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = { showCreateSheet = true },
-                icon = { Icon(imageVector = Icons.Outlined.Add, contentDescription = null) },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Outlined.Add,
+                        contentDescription = null
+                    )
+                },
                 text = { Text(text = stringResource(R.string.new_list)) },
             )
         },
     ) { padding ->
         when (uiState) {
-            ListsUiState.Loading -> LoadingState(modifier = Modifier.padding(padding))
-            is ListsUiState.Success ->
-                ListsContent(lists = uiState.lists, padding = padding, onOpenList = onOpenList)
+            ListsUiState.Loading -> LoadingState(
+                modifier = Modifier.padding(padding)
+            )
+
+            is ListsUiState.Success -> ListsContent(
+                lists = uiState.lists,
+                padding = padding,
+                onOpenList = onOpenList
+            )
         }
     }
 
@@ -92,7 +108,9 @@ private fun ListsContent(
 ) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
         LazyColumn(
-            modifier = Modifier.widthIn(max = 760.dp).fillMaxSize(),
+            modifier = Modifier
+                .widthIn(max = 760.dp)
+                .fillMaxSize(),
             contentPadding =
                 PaddingValues(
                     start = 24.dp,
@@ -110,7 +128,7 @@ private fun ListsContent(
                 )
             }
             if (lists.isEmpty()) {
-                item {
+                item("empty-list-state") {
                     EmptyState(
                         title = stringResource(R.string.empty_lists),
                         description = stringResource(R.string.empty_lists_description),
