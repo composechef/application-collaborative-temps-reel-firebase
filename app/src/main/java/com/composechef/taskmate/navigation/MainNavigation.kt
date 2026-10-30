@@ -2,19 +2,18 @@ package com.composechef.taskmate.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
-import androidx.navigation3.ui.NavDisplay
-import com.composechef.taskmate.feature.lists.ListsScreen
-import com.composechef.taskmate.feature.lists.ListsUiState
-import com.composechef.taskmate.feature.tasks.MyTasksScreen
-import com.composechef.taskmate.feature.tasks.MyTasksUiState
-import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
-import com.composechef.taskmate.core.designsystem.components.HomeTab
+import androidx.navigation3.ui.NavDisplay
 import com.composechef.taskmate.core.designsystem.components.HomeScaffold
+import com.composechef.taskmate.core.designsystem.components.HomeTab
 import com.composechef.taskmate.core.model.User
+import com.composechef.taskmate.feature.lists.ListsRoute
+import com.composechef.taskmate.feature.lists.details.ListDetailRoute
 import com.composechef.taskmate.feature.profile.ProfileRoute
+import com.composechef.taskmate.feature.tasks.MyTasksRoute
 
 
 @Composable
@@ -35,24 +34,27 @@ fun MainNavigation(user: User) {
             ),
             entryProvider = entryProvider {
                 entry<Lists> {
-                    ListsScreen(
-                        uiState = ListsUiState.Success(emptyList()),
-                        onOpenList = {},
-                        onCreateList = { _, _, _ -> },
-                        onJoinList = {},
+                    ListsRoute(
+                        onOpenList = { listId ->
+                            backStack.add(ListDetail(listId))
+                        }
                     )
                 }
                 entry<MyTasks> {
-                    MyTasksScreen(
-                        uiState = MyTasksUiState.Success(emptyList()),
-                        onOpenList = {},
-                        onSetTaskCompleted = { _, _ -> },
-                        onDeleteTask = {},
-                        onRestoreTask = {},
+                    MyTasksRoute(
+                        onOpenList = { listId ->
+                            backStack.add(ListDetail(listId))
+                        }
                     )
                 }
                 entry<Profile> {
                     ProfileRoute(user = user)
+                }
+                entry<ListDetail> { key ->
+                    ListDetailRoute(
+                        listId = key.listId,
+                        onBack = { backStack.removeLastOrNull() },
+                    )
                 }
             },
         )

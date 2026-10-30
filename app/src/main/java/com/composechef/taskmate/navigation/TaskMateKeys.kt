@@ -23,3 +23,6 @@ data object MyTasks : NavKey
 
 @Serializable
 data object Profile : NavKey
+
+@Serializable
+data class ListDetail(val listId: String) : NavKey
